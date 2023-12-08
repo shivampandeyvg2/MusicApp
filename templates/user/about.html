@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Navigation Bar with Content</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+  <style>
+    /* Basic styling for the navigation bar */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .navbar1 {
+      overflow: hidden;
+      background-color: white;
+    }
+
+    .navbar1 a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    .navbar a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Style for the left and right elements */
+    .creator-account {
+      float: left;
+    }
+
+    .other-links {
+      float: right;
+    }
+.search-bar button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .container {
+            width: 700px;
+            padding: 120px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+
+    h2 {
+            margin-bottom: 10px;
+        }
+
+        .name-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .name {
+            font-weight: bold;
+            text-align:left;
+        }
+
+        .link {
+            text-decoration: none;
+            color: blue;
+        }
+
+         .lyrics-box {
+            height: 350px; /* Fixed height */
+            overflow-y: scroll; /* Vertical scrollbar */
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        select {
+        width:200px;
+    }
+
+     .lyrics-list {
+      list-style: none; /* Remove default list bullets */
+      padding: 0; /* Remove default list padding */
+    }
+
+
+
+
+        </style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="{{ url_for('user_home', userid=userid , page =1) }}" class="creator-account">User Account Home</a>
+
+               <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button type="submit">Search</button>
+        </div>
+     <div class="other-links">
+    <a href="{{ url_for('userprofile', userid=userid) }}">Profile</a>
+    <a href="{{url_for('creator_home' , userid = userid )}}">Creator Account</a>
+    <a href="{{ url_for('user_login') }}" >Logout</a>
+  </div>
+</div>
+
+  <div class="container">
+
+        <div class="name-link ">
+            <div class ="name">
+                <div> Title :  {{song.songname}}</div>
+              <div>
+                  Creator : {{song.singer}}
+              </div>
+              <div>
+                  Genre : {{song.genre}}
+              </div>
+              <div>
+                  Release Date: {{ song.releasedate}}
+              </div>
+              <div>
+                  Average Rating : {{song.averagerating}}
+              </div>
+              <div>
+                  Number of Rating : {{song.ratingcount}}
+              </div>
+            </div>
+            <form  method="post" class="link">
+                <label for="rating">Choose a rating:</label><br>
+                <select id="rating" name="rating" >
+                    <option value=5 style="background-image:url(5.png);"> 5 </option>
+                    <option value=4 style="background-image:url(4.png);">4</option>
+                    <option value=3 style="background-image:url(3.png);">3</option>
+                    <option value=2 style="background-image:url(2.png);">2</option>
+                    <option value=1 style="background-image:url(1.png);">1</option>
+                    </select><br><br>
+            <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="lyrics-box">
+            <h2>Song Lyrics:</h2>
+            <ul class="lyrics-list">
+              {% for line in song.lyrics.splitlines() %}
+                <li>{{ line }}</li>
+              {% endfor %}
+        </ul>
+        </div>
+    </div>
+</body>
+</html>

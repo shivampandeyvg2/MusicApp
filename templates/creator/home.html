@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Navigation Bar with Content</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+  <style>
+    /* Basic styling for the navigation bar */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .navbar a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Style for the left and right elements */
+    .creator-account {
+      float: left;
+    }
+
+    .other-links {
+      float: right;
+    }
+
+    /* Style for the content box */
+    .content-box {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .upload-icon {
+      display: block;
+      margin: 20px auto;
+      width: 60px;
+      height: 60px;
+      background-color: #333;
+      color: white;
+      border-radius: 50%;
+      line-height: 60px;
+      font-size: 36px;
+    }
+
+
+        /* Add your CSS styles here */
+        .dashboard-section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section {
+            margin-bottom: 20px;
+        }
+
+        .song-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .song-box1 {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            float:left;
+            margin-right: 100px;
+        }
+
+        .song-box1 img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        .song-box img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .song-details {
+            margin-bottom: 10px;
+        }
+
+        .song-actions a {
+            margin-right: 10px;
+        }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="{{ url_for('creator_home', userid=userid) }}" class="creator-account">Creator Account</a>
+  <div class="other-links">
+    <a href="{{ url_for('uploadsong', userid=userid) }}">Upload Songs</a>
+    <a href="{{url_for('user_home' , userid = userid , page =1)}}">User Account</a>
+    <a href="{{ url_for('creator_login') }}" >Logout</a>
+  </div>
+</div>
+<div class="container">
+ {% if totalsongs ==None %}
+    <div class="content-box">
+      <p>Kickstart your Creator's journey. Start by uploading songs.</p>
+      <div class="upload-icon">
+          <a href = "{{url_for('uploadsong', userid=userid)}}">+ </a>
+      </div>
+    </div>
+ {% else %}
+     <div class="row dashboard-section">
+         <h2>Your Creators DashBoard</h2>
+            <div >
+                <div class="song-box1">
+                    <img src="/../../static/image/song.png" alt="Song Image">
+                    <h3>Total Songs</h3>
+                    <p>{{ totalsongs }}</p>
+                </div>
+                <div class="song-box1">
+                <img src="/../../static/image/album.png" alt="Song Image">
+                    <h3>Total Albums</h3>
+                    <p>{{ totalalbums }}</p>
+                </div>
+                <div class="song-box1">
+                    <img src="/../../static/image/rating.png" alt="Song Image">
+                    <h3>Average Rating</h3>
+                    <p>{{ averagerating }}</p>
+                </div>
+            </div>
+        </div>
+
+    <div class="row dashboard-section">
+                    <div class="col-md-6">
+                <h2 class="d-inline-block">Your Uploads</h2>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="{{ url_for('uploadsong', userid=userid) }}">Upload Songs</a>
+            </div>
+        <div class="col-md-12">
+                {% for song in songs %}
+                <div class="song-box">
+                    <div class="song-details d-flex justify-content-between align-items-center">
+                        <h4>{{ song.songname }}</h4>
+                        <a class="song-actions" href="{{ url_for('viewlyrics', id=song.id , userid = userid) }}" >View Lyrics <i class="fas fa-music"></i></a>
+                        <a class="song-actions"  href="{{ url_for('editsong', id=song.id , userid = userid) }}">Edit <i class="fas fa-edit"></i></a>
+                       <a class="song-actions" href="{{ url_for('deletesong', id=song.id , userid = userid) }}">Delete <i class="fas fa-trash-alt"></i></a>
+                        <!-- Other song details -->
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+     <div class="row dashboard-section">
+                    <div class="col-md-6">
+                <h2 class="d-inline-block">Your Albums</h2>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="{{ url_for('createalbum', userid=userid) }}">New</a>
+            </div>
+        <div class="col-md-12">
+                {% for album in albums %}
+                <div class="song-box">
+                    <div class="song-details d-flex justify-content-between align-items-center">
+                        <h4>{{ album.album_name }}</h4>
+                        <a class="song-actions" href="{{ url_for('viewalbum', userid = userid , albumid=album.id ) }}" >View Album <i class="fas fa-music"></i></a>
+                        <a class="song-actions" href="{{ url_for('deletealbum', userid = userid , albumid=album.id) }}" >Delete Album <i class="fas fa-trash-alt"></i></a>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+</div>
+  {% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

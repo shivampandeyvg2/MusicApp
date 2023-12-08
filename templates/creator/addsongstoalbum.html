@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Navigation Bar with Content</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Basic styling for the navigation bar */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .navbar a {
+      display: inline-block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    /* Style for the left and right elements */
+    .creator-account {
+      float: left;
+    }
+
+    .other-links {
+      float: right;
+    }
+
+    /* Style for the content box */
+    .content-box {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .upload-icon {
+      display: block;
+      margin: 20px auto;
+      width: 60px;
+      height: 60px;
+      background-color: #333;
+      color: white;
+      border-radius: 50%;
+      line-height: 60px;
+      font-size: 36px;
+    }
+
+
+        /* Add your CSS styles here */
+        .dashboard-section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section {
+            margin-bottom: 20px;
+        }
+
+        .song-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .song-box1 {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            float:left;
+            margin-right: 100px;
+        }
+
+        .song-box1 img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        .song-box img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        .song-details {
+            margin-bottom: 10px;
+        }
+
+        .song-actions a {
+            margin-right: 10px;
+        }
+
+        .formbox{
+        border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="{{ url_for('creator_home', userid=userid) }}" class="creator-account">Creator Account</a>
+  <div class="other-links">
+    <a href="{{ url_for('uploadsong', userid=userid) }}">Upload Songs</a>
+    <a href="{{url_for('user_home' , userid = userid , page =1)}}">User Account</a>
+    <a href="{{ url_for('creator_login') }}" >Logout</a>
+  </div>
+</div>
+    <div id ="formbox">
+    <h2>Add songs to your album</h2>
+
+    <form  method="post">
+        <label for="album_name">Album Name:</label><br>
+        <input type="text" id="album_name" name="albumname"><br><br>
+
+        <label for="song_list">Select Songs:</label><br>
+        <select id="song_list" name="selected_songs" multiple>
+            {% for song in songs %}
+                <option value="{{ song.id }}">{{ song.songname }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+</body>
+</html>
