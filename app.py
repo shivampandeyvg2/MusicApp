@@ -308,7 +308,7 @@ def viewalbum(userid, albumid):
         if album==None:
             msg = f"No Album found Please Create One "
             return msg
-        albumdetail = albumdetails.query.filter_by(albumid = albumid , is_active=1).all()
+        albumdetail = albumdetails.query.filter_by(albumid = albumid ).all()
         songss =[]
         for item in albumdetail:
             song = songs.query.filter_by(id = item.songid).first()
@@ -586,7 +586,7 @@ def admin_register():
         )
         db.session.add(new_user)
         db.session.commit()
-        return ("You have successfully registered ")
+        return redirect(url_for('admin_home' ))
     return render_template('/admin/register.html' , message =None)
 
 
@@ -602,25 +602,56 @@ def admin_login():
         if password != user1.password:
             msg = f"Incorrect Password! Try Again"
             return render_template('/admin/login.html', message=msg)
-        return redirect(url_for('admin_home', userid =userid ))
+        return redirect(url_for('admin_home' ))
     return render_template('/admin/login.html' , message =None)
 
 
-@app.route('/admin/home/<userid>',methods=[ 'GET'])
-def admin_home(userid):
+@app.route('/admin/home',methods=[ 'GET'])
+def admin_home():
     normal = user.query.count()
     creator = songs.query.distinct(songs.uploadedby).count()
     tracks = songs.query.count()
     albums = creatoralbum.query.count()
     genre = genres.query.count()
-    popularsong = songs.query.order_by(songs.averagerating.desc).first()
+    # popularsong = songs.query.order_by(songs.averagerating.desc).first()
     data = {
         'normal' : normal,
         'creator':creator,
         'tracks':tracks,
         'albums':albums,
         'genre':genre,
-        'popularsong':popularsong
+        'popularsong':'popularsong'
 
     }
-    render_template('/admin/home.html' , data = data )
+    return render_template('/admin/home.html' , data = data )
+
+@app.route('/admin/search',methods=[ 'POST'])
+def admin_search():
+    keyword = request.form['query']
+    namematched = songs.query.filter(songs.songname.contains(keyword), songs.is_active==1 ).all()
+
+    return render_template('/admin/search.html',  name=namematched)
+
+
+@app.route('/admin/flag/<songid>',methods=[ 'GET'])
+def flag(songid):
+
+    song = songs.query.filter_by(id = songid).first()
+    if song:
+        song.is_active =0
+        db.session.commit()
+    return redirect(url_for('admin_home'))
+
+@app.route('/admin/remove/<songid>',methods=[ 'GET'])
+def remove(songid):
+    song = songs.query.filter_by(id=songid).first()
+    if song:
+        songs.query.filter_by(id=songid).delete()
+        db.session.commit()
+
+    return redirect(url_for('admin_home'))
+
+@app.route('/admin/tracks',methods=[ 'GET'])
+def gettracks():
+    song = songs.query.filter_by(is_active=1).all()
+    return render_template('/admin/tracks.html', name = song)

@@ -287,8 +287,8 @@ b2-box {
 <body>
 
 <div class="navbar">
-  <a href="{{ url_for('user_home', userid=userid , page =1) }}" class="creator-account">ADMIN DASHBOARD</a>
-                <form action="{{url_for('search' , userid = userid)}}" method="POST">
+  <a href="{{ url_for('admin_home') }}" class="creator-account">ADMIN DASHBOARD</a>
+                <form action="{{url_for('admin_search') }}" method="POST">
                <div class="search-bar">
             <input type="text" placeholder="Search Tracks..." name="query">
             <button type="submit">Search </button>
@@ -296,102 +296,32 @@ b2-box {
                 </form>
      <div class="other-links">
 <!--    <a href="{{ url_for('userprofile', userid=userid) }}">Profile</a>-->
-    <a href="{{url_for('creator_home' , userid = userid )}}">Tracks</a>
-    <a href="{{ url_for('user_login') }}" >Logout</a>
+    <a href="{{url_for('gettracks')}}">Tracks</a>
+    <a href="{{ url_for('admin_login') }}" >Logout</a>
   </div>
 </div>
 
 <div class="container">
+        <div>
+            <h1> Total Users : {{data.normal}}</h1>
+        </div>
+         <div>
+            <h1> Creators : {{data.creator}}</h1>
+        </div>
+     <div>
+            <h1> Total Number of Tracks : {{data.tracks}}</h1>
+        </div>
+     <div>
+            <h1> Total Number of Albums : {{data.albums}}</h1>
+        </div>
 
-     <div class="center-container">
-    <div class="top-left">A</div>
-    <div class="top-right">
-      <div class="b2-box">
-        <div class="b-inner">B1</div>
-      </div>
-      <div class="b2-box">
-        <div class="b-inner">B2</div>
-      </div>
-      <div class="b2-box">
-        <div class="b-inner">B3</div>
-      </div>
-    </div>
-    <div class="bottom-left">C</div>
-    <div class="bottom-right">
-      <div class="b2-box">
-        <div class="b-inner">D1</div>
-      </div>
-      <div class="b2-box">
-        <div class="b-inner">D2</div>
-      </div>
-      <div class="b2-box">
-        <div class="b-inner">D3</div>
-      </div>
-    </div>
+
   </div>
-<!--     <div class="row dashboard-section">-->
-<!--         <h2>Admin DashBoard</h2>-->
-<!--            <div >-->
-<!--                <div class="song-box1">-->
-<!--                    <img src="/../../static/image/nusers.jpeg" alt="Song Image">-->
-<!--                    <h3>Total Users</h3>-->
-<!--                    <p>{{ data.normal }}</p>-->
-<!--                </div>-->
-<!--                <div class="song-box1">-->
-<!--                <img src="/../../static/image/creators.jpeg" alt="Song Image">-->
-<!--                    <h3>Total Creators</h3>-->
-<!--                    <p>{{ data.creator }}</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
 
-<!--    <div class="row dashboard-section">-->
-<!--                    <div class="col-md-6">-->
-<!--                <h2 class="d-inline-block">Your Uploads</h2>-->
-<!--            </div>-->
-<!--            <div class="col-md-6 text-right">-->
-<!--                <a href="{{ url_for('uploadsong', userid=userid) }}">Upload Songs</a>-->
-<!--            </div>-->
-<!--        <div class="col-md-12">-->
-<!--                {% for song in songs %}-->
-<!--                <div class="song-box">-->
-<!--                    <div class="song-details d-flex justify-content-between align-items-center">-->
-<!--                        <h4>{{ song.songname }}</h4>-->
-<!--                        <a class="song-actions" href="{{ url_for('viewlyrics', id=song.id , userid = userid) }}" >View Lyrics <i class="fas fa-music"></i></a>-->
-<!--                        <a class="song-actions"  href="{{ url_for('editsong', id=song.id , userid = userid) }}">Edit <i class="fas fa-edit"></i></a>-->
-<!--                       <a class="song-actions" href="{{ url_for('deletesong', id=song.id , userid = userid) }}">Delete <i class="fas fa-trash-alt"></i></a>-->
-<!--                        &lt;!&ndash; Other song details &ndash;&gt;-->
-<!--                    </div>-->
-
-<!--                </div>-->
-<!--                {% endfor %}-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--     <div class="row dashboard-section">-->
-<!--                    <div class="col-md-6">-->
-<!--                <h2 class="d-inline-block">Your Albums</h2>-->
-<!--            </div>-->
-<!--            <div class="col-md-6 text-right">-->
-<!--                <a href="{{ url_for('createalbum', userid=userid) }}">New</a>-->
-<!--            </div>-->
-<!--        <div class="col-md-12">-->
-<!--                {% for album in albums %}-->
-<!--                <div class="song-box">-->
-<!--                    <div class="song-details d-flex justify-content-between align-items-center">-->
-<!--                        <h4>{{ album.album_name }}</h4>-->
-<!--                        <a class="song-actions" href="{{ url_for('viewalbum', userid = userid , albumid=album.id ) }}" >View Album <i class="fas fa-music"></i></a>-->
-<!--                        <a class="song-actions" href="{{ url_for('deletealbum', userid = userid , albumid=album.id) }}" >Delete Album <i class="fas fa-trash-alt"></i></a>-->
-<!--                    </div>-->
-
-<!--                </div>-->
-<!--                {% endfor %}-->
-<!--            </div>-->
-<!--        </div>-->
-</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
 </body>
 </html>
